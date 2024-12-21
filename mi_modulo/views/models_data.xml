@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <!-- Declaración del modelo -->
+        <record id="model_mi_modelo" model="ir.model">
+            <field name="name">mi.modelo</field>
+            <field name="model">mi.modelo</field>
+            <field name="state">manual</field>
+        </record>
+    </data>
+</odoo>
+
