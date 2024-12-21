@@ -4,7 +4,7 @@
         <field name="name">mi.modelo.form</field>
         <field name="model">mi.modelo</field>
         <field name="arch" type="xml">
-            <form string="Formulario de Mi Modelo">
+            <form>
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -21,7 +21,7 @@
         <field name="name">mi.modelo.tree</field>
         <field name="model">mi.modelo</field>
         <field name="arch" type="xml">
-            <tree string="Lista de Mi Modelo">
+            <tree>
                 <field name="name"/>
                 <field name="fecha"/>
             </tree>
