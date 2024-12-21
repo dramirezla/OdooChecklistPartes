@@ -1,4 +1,5 @@
 <odoo>
+    <!-- Vista Formulario -->
     <record id="view_form_mi_modelo" model="ir.ui.view">
         <field name="name">mi.modelo.form</field>
         <field name="model">mi.modelo</field>
@@ -15,6 +16,7 @@
         </field>
     </record>
 
+    <!-- Vista Tree -->
     <record id="view_tree_mi_modelo" model="ir.ui.view">
         <field name="name">mi.modelo.tree</field>
         <field name="model">mi.modelo</field>
@@ -26,3 +28,4 @@
         </field>
     </record>
 </odoo>
+
