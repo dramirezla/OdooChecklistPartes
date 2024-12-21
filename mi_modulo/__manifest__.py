@@ -1,15 +1,12 @@
 {
     'name': 'Mi Módulo',
     'version': '1.0',
-    'summary': 'Descripción breve del módulo',
-    'description': 'Descripción detallada del módulo',
-    'author': 'David Alejandro Ramírez',
+    'author': 'Tu Nombre',
     'depends': ['base'],
     'data': [
         'security/ir.model.access.csv',
-        'views/mi_modelo_views.xml',
+        'views/models_data.xml',
     ],
     'installable': True,
-    'application': True,
-    'license': 'LGPL-3',
+    'application': False,
 }
