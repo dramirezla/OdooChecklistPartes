@@ -1,9 +1,10 @@
 <odoo>
+    <!-- Vista de formulario -->
     <record id="view_form_mi_modelo" model="ir.ui.view">
         <field name="name">mi.modelo.form</field>
         <field name="model">mi.modelo</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Formulario de Mi Modelo">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -15,14 +16,16 @@
         </field>
     </record>
 
+    <!-- Vista de lista (tree) -->
     <record id="view_tree_mi_modelo" model="ir.ui.view">
         <field name="name">mi.modelo.tree</field>
         <field name="model">mi.modelo</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Lista de Mi Modelo">
                 <field name="name"/>
                 <field name="fecha"/>
             </tree>
         </field>
     </record>
 </odoo>
+
