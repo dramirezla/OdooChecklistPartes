@@ -6,9 +6,6 @@
     'author': 'David Alejandro Ramírez',
     'category': 'Custom',
     'depends': ['base', 'mail', 'account'],
-    'external_dependencies': {
-    'python': ['fitz', 'PyPDF2', 're']
-    },
     'data': [
         'security/ir.model.access.csv',
         'views/mi_modelo_views.xml',
