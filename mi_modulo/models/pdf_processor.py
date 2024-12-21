@@ -15,6 +15,7 @@ class PdfProcessor(models.Model):
     letter_frequency = fields.Text(string='Frecuencia de Letras')
     image_previews = fields.Html(string='Vista Previa de Imágenes')
     activity_ids = fields.Many2many(string='Activities')
+    res_name = fields.Char(string='Res Name')
 
     def process_pdf(self):
         if self.pdf_file:
