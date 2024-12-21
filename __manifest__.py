@@ -10,6 +10,6 @@
         'views/mi_modelo_views.xml',
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'license': 'LGPL-3',
 }
