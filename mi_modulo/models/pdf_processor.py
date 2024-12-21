@@ -4,7 +4,7 @@ import re
 from collections import Counter
 
 class PdfProcessor(models.Model):
-    _name = 'pdf.processor'
+    _name = 'mimodelo2'
     _description = 'PDF Processor'
 
     name = fields.Char(string='Nombre del Documento')
