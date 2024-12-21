@@ -16,7 +16,7 @@
               sequence="10"/>
 
         <!-- Definición de la vista tipo lista -->
-    <record id="view_mimodelo2_tree" model="ir.ui.view">
+    <record id="view_mimodelo2_list" model="ir.ui.view">
         <field name="name">mimodelo2.tree</field>
         <field name="model">mimodelo2</field>
     </record>
