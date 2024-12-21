@@ -1,22 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="view_pdf_processor_form" model="ir.ui.view">
-            <field name="name">pdf.processor.form</field>
-            <field name="model">pdf.processor</field>
+        <!-- Vista de formulario para mimodelo2 -->
+        <record id="view_mimodelo2_form" model="ir.ui.view">
+            <field name="name">mimodelo2.form</field>
+            <field name="model">mimodelo2</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Procesador PDF">
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="pdf_file"/>
-                            <field name="extracted_text" widget="text"/>
-                            <field name="letter_frequency"/>
-                            <field name="image_previews" widget="html"/>
+                            <!-- Campo de nombre del modelo -->
+                            <field name="name" string="Nombre del Documento"/>
+
+                            <!-- Campo para cargar el archivo PDF -->
+                            <field name="pdf_file" string="Archivo PDF"/>
+
+                            <!-- Campo para mostrar el texto extraído -->
+                            <field name="extracted_text" string="Texto Extraído" widget="text"/>
+
+                            <!-- Campo para mostrar la frecuencia de letras -->
+                            <field name="letter_frequency" string="Frecuencia de Letras"/>
+
+                            <!-- Campo para mostrar las imágenes extraídas -->
+                            <field name="image_previews" string="Vista Previa de Imágenes" widget="html"/>
                         </group>
-                        <footer>
-                            <button name="process_pdf" type="object" string="Procesar PDF" class="btn-primary"/>
-                        </footer>
                     </sheet>
+
+                    <!-- Botón para procesar el PDF -->
+                    <footer>
+                        <button name="process_pdf" type="object" string="Procesar PDF" class="btn-primary"/>
+                    </footer>
                 </form>
             </field>
         </record>
