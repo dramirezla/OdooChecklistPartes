@@ -42,5 +42,3 @@
         <menuitem id="menu_mi_modelo" name="Mi Modelo" parent="base.menu_custom" action="action_mi_modelo"/>
     </data>
 </odoo>
-
-
