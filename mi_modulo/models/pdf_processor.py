@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-import fitz  # PyMuPDF
+#import fitz  # PyMuPDF
 import re
 from collections import Counter
 
