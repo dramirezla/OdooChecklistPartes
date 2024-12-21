@@ -1,2 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <record id="view_list_mi_modelo" model="ir.ui.view">
+    
+  </record>
 </odoo>
