@@ -15,6 +15,16 @@
               action="action_mimodelo2_list"
               sequence="10"/>
 
-    
+        <!-- Definición de la vista tipo lista -->
+    <record id="view_mimodelo2_tree" model="ir.ui.view">
+        <field name="name">mimodelo2.tree</field>
+        <field name="model">mimodelo2</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="create_date" string="Fecha de Creación"/>
+            </tree>
+        </field>
+    </record>
 </odoo>
 
