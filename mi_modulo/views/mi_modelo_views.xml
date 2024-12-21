@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Acción para abrir la vista lista -->
+    <record id="action_mimodelo2_list" model="ir.actions.act_window">
+        <field name="name">Mi Modelo</field>
+        <field name="res_model">mimodelo2</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">Esta es una lista de registros de Mi Modelo.
+            <tree string= "Texto1 ">
+                <field name= "nombre_campo"/>
+                <field name= "nombre_campo2"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Menú para acceder a la vista -->
+    <menuitem id="menu_mimodelo2_root"
+              name="Mi Modelo"
+              parent="base.menu_custom"
+              action="action_mimodelo2_list"
+              sequence="10"/>
 </odoo>
 
