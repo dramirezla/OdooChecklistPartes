@@ -2,7 +2,7 @@
     'name': 'Mi Módulo',
     'version': '1.0',
     'summary': 'Descripción breve del módulo',
-    'description': 'Descripción detallada del módulo',
+    'description': 'Modulo para la descripcion y seleccion de partes de un documento pdf',
     'author': 'David Alejandro Ramírez',
     'depends': ['base', 'mail', 'account'],
     'data': [
