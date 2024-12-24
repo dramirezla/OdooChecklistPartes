@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
+        <!-- Menú principal -->
+    <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
+
+    <!-- Submenú para la acción -->
+    <menuitem id="menu_mi_modelo_action" 
+              name="Lista de Mi Modelo" 
+              parent="menu_mi_modelo_root"
+              action="action_mi_modelo"/>
     <!-- Vista de formulario -->
     <record id="view_form_mi_modelo" model="ir.ui.view">
         <field name="name">mimodelo3.form</field>
@@ -25,12 +34,5 @@
         <field name="view_mode">form</field>
     </record>
 
-    <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
 
-    <!-- Submenú para la acción -->
-    <menuitem id="menu_mi_modelo_action" 
-              name="Lista de Mi Modelo" 
-              parent="menu_mi_modelo_root"
-              action="action_mi_modelo"/>
 </odoo>
