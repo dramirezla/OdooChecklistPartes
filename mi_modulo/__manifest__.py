@@ -6,7 +6,6 @@
     'author': 'David Alejandro Ramírez',
     'depends': ['base'],
     'data': [
-        'security/ir.model.access.csv',
         'views/mi_modelo_views.xml',
     ],
     'installable': True,
