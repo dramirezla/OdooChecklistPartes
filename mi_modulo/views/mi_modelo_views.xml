@@ -1,8 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        
-        <!-- Menú principal -->
-        <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
+    <!-- Vista de formulario -->
+    <record id="view_form_mi_modelo" model="ir.ui.view">
+        <field name="name">mimodelo3.form</field>
+        <field name="model">mimodelo3</field>
+        <field name="arch" type="xml">
+            <form string="Modelo4">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="descripcion"/>
+                        <field name="fecha"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-    </data>
+    <!-- Vista de árbol -->
+    <record id="view_tree_mi_modelo" model="ir.ui.view">
+        <field name="name">mimodelo3.tree</field>
+        <field name="model">mimodelo3</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="fecha"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acción para las vistas -->
+    <record id="action_mi_modelo" model="ir.actions.act_window">
+        <field name="name">Mi Modelo</field>
+        <field name="res_model">mimodelo3</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menú principal -->
+    <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
+
+    <!-- Submenú para la acción -->
+    <menuitem id="menu_mi_modelo_action" 
+              name="Lista de Mi Modelo" 
+              parent="menu_mi_modelo_root"
+              action="action_mi_modelo"/>
 </odoo>
