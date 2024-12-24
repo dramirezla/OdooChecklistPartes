@@ -21,7 +21,7 @@
         <record id="view_tree_mi_modelo" model="ir.ui.view">
             <field name="name">mimodelo3.tree</field>
             <field name="model">mimodelo3</field>
-            <field name="arch" type="xml">
+            <field name="arch">
                 <tree>
                     <field name="name"/>
                     <field name="fecha"/>
