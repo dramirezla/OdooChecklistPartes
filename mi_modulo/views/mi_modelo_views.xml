@@ -45,7 +45,7 @@
     <record id="action_mi_modelo" model="ir.actions.act_window">
         <field name="name">Mi Modelo</field>
         <field name="res_model">mimodelo3</field>
-        <field name="view_mode">form</field>
+        <field name="view_mode">form,tree</field>
     </record>
 
 
