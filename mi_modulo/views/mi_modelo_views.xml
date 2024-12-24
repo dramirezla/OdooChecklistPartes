@@ -4,7 +4,7 @@
         <record id="view_form_mi_modelo" model="ir.ui.view">
             <field name="name">mimodelo3.form</field>
             <field name="model">mimodelo3</field>
-            <field name="arch" type="xml">
+            <field name="arch">
                 <form>
                     <sheet>
                         <group>
