@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+            <!-- Menú principal -->
+    <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF"/>
+
+    <!-- Submenú para la acción -->
+    <menuitem id="menu_procesamiento_pdf_action" 
+              name="Lista de procesamiento" 
+              parent="menu_procesamiento_pdf_root"
+              action="action_procesamiento_pdf"/>
+    
     <record id="view_procesamiento_pdf_kanban" model="ir.ui.view">
         <field name="name">procesamiento.pdf.kanban</field>
         <field name="model">procesamiento.pdf</field>
@@ -54,8 +63,6 @@
 
 
          
-       <!-- Menú principal -->
-    <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF"/>
 
     <record id="action_procesamiento_pdf" model="ir.actions.act_window">
         <field name="name">Procesamiento de PDF</field>
