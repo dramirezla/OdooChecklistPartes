@@ -8,7 +8,7 @@ class ProcesamientoPDF(models.Model):
     _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
 
-    name = fields.Char(string='Nombre del PDF', required=True)
+    name = fields.Char(string='Nombre', required=True)
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
