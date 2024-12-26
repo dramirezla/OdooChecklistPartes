@@ -4,8 +4,6 @@
         <field name="name">procesamiento.pdf.tree</field>
         <field name="model">procesamiento.pdf</field>
         <field name="arch" type="xml">
-            <tree>
-            </tree>
         </field>
     </record>
 
