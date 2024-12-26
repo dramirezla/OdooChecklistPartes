@@ -8,6 +8,11 @@ class ProcesamientoPDF(models.Model):
     _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
 
+    pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado')
+    letra = fields.Char(string='Letra Encontrada')
+    layout = fields.Integer(string='Número de Página')
+    seleccionada = fields.Boolean(string='Seleccionada')
+
     name = fields.Char(string='Nombre', required=True)
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
