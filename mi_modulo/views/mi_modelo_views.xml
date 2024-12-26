@@ -2,7 +2,7 @@
 <odoo>
 
         <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
+    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf"/>
 
     <!-- Submenú para la acción -->
     <menuitem id="menu_mi_modelo_action" 
@@ -43,7 +43,7 @@
 
     <!-- Acción para las vistas -->
     <record id="action_mi_modelo" model="ir.actions.act_window">
-        <field name="name">ProcesamientoPdf</field>
+        <field name="name">Mi Modelo</field>
         <field name="res_model">mimodelo3</field>
         <field name="view_mode">form</field>
     </record>
