@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-        <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf" sequence="10" action="action_mi_modelo"/>
-
-    <!-- Submenú para la acción -->
-    <menuitem id="action_mi_modelo" 
-              name="Lista de Mi Modelo" 
-              parent="menu_mi_modelo_root"
-              action="action_mi_modelo"/>
-    <!-- Vista de formulario -->
-    <record id="view_form_mi_modelo" model="ir.ui.view">
-        <field name="name">mimodelo3.form</field>
-        <field name="model">mimodelo3</field>
+    <record id="view_procesamiento_pdf_tree" model="ir.ui.view">
+        <field name="name">procesamiento.pdf.tree</field>
+        <field name="model">procesamiento.pdf</field>
         <field name="arch" type="xml">
-            <form string="Modelo4">
+            <tree>
+                <field name="name"/>
+                <field name="procesado"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_procesamiento_pdf_form" model="ir.ui.view">
+        <field name="name">procesamiento.pdf.form</field>
+        <field name="model">procesamiento.pdf</field>
+        <field name="arch" type="xml">
+            <form>
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -41,27 +42,14 @@
         </field>
     </record>
 
+    <menuitem id="menu_procesamiento_pdf_root"
+              name="Procesamiento de PDF"
+              sequence="10"
+              action="action_procesamiento_pdf"/>
 
-               <!-- Vista de árbol 
-        <record id="view_tree_mi_modelo" model="ir.ui.view">
-            <field name="name">mimodelo3.tree</field>
-            <field name="model">mimodelo3</field>
-            <field name="arch">
-                <tree>
-                    <field name="name"/>
-                    <field name="fecha"/>
-                </tree>
-            </field>
-        </record>-->
-
-
-
-    <!-- Acción para las vistas -->
-    <record id="action_mi_modelo" model="ir.actions.act_window">
-        <field name="name">Mi Modelo</field>
-        <field name="res_model">mimodelo3</field>
-        <field name="view_mode">form</field>
+    <record id="action_procesamiento_pdf" model="ir.actions.act_window">
+        <field name="name">Procesamiento de PDF</field>
+        <field name="res_model">procesamiento.pdf</field>
+        <field name="view_mode">tree,form</field>
     </record>
-
-
 </odoo>
