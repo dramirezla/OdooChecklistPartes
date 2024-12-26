@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_procesamiento_pdf_tree" model="ir.ui.view">
-        <field name="name">procesamiento.pdf.tree</field>
+    <record id="view_procesamiento_pdf_kanban" model="ir.ui.view">
+        <field name="name">procesamiento.pdf.kanban</field>
         <field name="model">procesamiento.pdf</field>
         <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="o_kanban_card">
+                            <div class="o_kanban_card_header">
+                                <strong><field name="name"/></strong>
+                            </div>
+                            <div class="o_kanban_card_body">
+                                <p><strong>Frecuencia:</strong> <field name="frecuencia_partes"/></p>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
@@ -38,6 +52,9 @@
         </field>
     </record>
 
+
+         
+       <!-- Menú principal -->
     <menuitem id="menu_procesamiento_pdf_root"
               name="Procesamiento de PDF"
               sequence="10"
@@ -46,6 +63,6 @@
     <record id="action_procesamiento_pdf" model="ir.actions.act_window">
         <field name="name">Procesamiento de PDF</field>
         <field name="res_model">procesamiento.pdf</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">form,kanban</field>
     </record>
 </odoo>
