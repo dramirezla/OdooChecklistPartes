@@ -27,7 +27,7 @@
     </record>
 
 
-               <!-- Vista de árbol -->
+               <!-- Vista de árbol 
         <record id="view_tree_mi_modelo" model="ir.ui.view">
             <field name="name">mimodelo3.tree</field>
             <field name="model">mimodelo3</field>
@@ -37,7 +37,7 @@
                     <field name="fecha"/>
                 </tree>
             </field>
-        </record>
+        </record>-->
 
 
 
@@ -45,7 +45,7 @@
     <record id="action_mi_modelo" model="ir.actions.act_window">
         <field name="name">ProcesamientoPdf</field>
         <field name="res_model">mimodelo3</field>
-        <field name="view_mode">form,tree</field>
+        <field name="view_mode">form</field>
     </record>
 
 
