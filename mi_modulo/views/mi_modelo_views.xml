@@ -2,7 +2,7 @@
 <odoo>
 
         <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="Mi Modelo"/>
+    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf"/>
 
     <!-- Submenú para la acción -->
     <menuitem id="menu_mi_modelo_action" 
