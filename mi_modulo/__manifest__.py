@@ -1,8 +1,8 @@
 {
-    'name': 'Mi Módulo',
+    'name': 'ProcesamientoPdf',
     'version': '1.0',
-    'summary': 'Descripción breve del módulo',
-    'description': 'Descripción detallada del módulo',
+    'summary': 'Procesamiento de partes de un pdf',
+    'description': 'Procesamiento de partes de un pdf',
     'author': 'David Alejandro Ramírez',
     'depends': ['base'],
     'data': [
