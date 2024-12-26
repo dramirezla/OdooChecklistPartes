@@ -5,7 +5,7 @@ import re
 from collections import Counter
 
 class ProcesamientoPDF(models.Model):
-    _name = 'mimodelo4'
+    _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
 
     name = fields.Char(string='Nombre', required=True)
