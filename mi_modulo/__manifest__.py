@@ -1,14 +1,14 @@
 {
-    'name': 'ProcesamientoPdf',
+    'name': 'Procesamiento de PDF',
+    'summary': 'Procesa PDFs y extrae las partes encontradas',
     'version': '1.0',
-    'summary': 'Procesamiento de partes de un pdf',
-    'description': 'Procesamiento de partes de un pdf',
-    'author': 'David Alejandro Ramírez',
+    'category': 'Tools',
+    'author': 'David Ramirez',
     'depends': ['base'],
     'data': [
-        'views/mi_modelo_views.xml',
+        'views/procesamiento_pdf_views.xml',
     ],
     'installable': True,
     'application': True,
-    'license': 'LGPL-3',
 }
+
