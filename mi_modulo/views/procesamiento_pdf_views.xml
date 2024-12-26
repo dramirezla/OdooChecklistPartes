@@ -55,7 +55,7 @@
 
          
        <!-- Menú principal -->
-    <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF" action="action_procesamiento_pdf"/>
+    <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF"/>
 
     <record id="action_procesamiento_pdf" model="ir.actions.act_window">
         <field name="name">Procesamiento de PDF</field>
