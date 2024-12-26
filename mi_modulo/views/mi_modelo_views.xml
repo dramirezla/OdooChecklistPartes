@@ -2,10 +2,10 @@
 <odoo>
 
         <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf" sequence="10" action="action_procesamiento_pdf"/>
+    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf" sequence="10" action="action_mi_modelo"/>
 
     <!-- Submenú para la acción -->
-    <menuitem id="action_procesamiento_pdf" 
+    <menuitem id="action_mi_modelo" 
               name="Lista de Mi Modelo" 
               parent="menu_mi_modelo_root"
               action="action_mi_modelo"/>
@@ -57,7 +57,7 @@
 
 
     <!-- Acción para las vistas -->
-    <record id="action_procesamiento_pdf" model="ir.actions.act_window">
+    <record id="action_mi_modelo" model="ir.actions.act_window">
         <field name="name">Mi Modelo</field>
         <field name="res_model">mimodelo3</field>
         <field name="view_mode">form</field>
