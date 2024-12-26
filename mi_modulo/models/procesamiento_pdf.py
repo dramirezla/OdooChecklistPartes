@@ -12,7 +12,7 @@ class ProcesamientoPDF(models.Model):
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
-    procesado = fields.Boolean(string='Procesado', default=False)
+    procesado = fields.Boolean(string='Procesado')
 
     def procesar_pdf(self):
         """
