@@ -2,10 +2,10 @@
 <odoo>
 
         <!-- Menú principal -->
-    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf"/>
+    <menuitem id="menu_mi_modelo_root" name="ProcesamientoPdf" sequence="10" action="action_procesamiento_pdf"/>
 
     <!-- Submenú para la acción -->
-    <menuitem id="menu_mi_modelo_action" 
+    <menuitem id="action_procesamiento_pdf" 
               name="Lista de Mi Modelo" 
               parent="menu_mi_modelo_root"
               action="action_mi_modelo"/>
@@ -18,10 +18,25 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="descripcion"/>
-                        <field name="fecha"/>
+                        <field name="archivo_pdf"/>
+                        <field name="frecuencia_partes" widget="text"/>
                     </group>
+                    <notebook>
+                        <page string="Partes Encontradas">
+                            <field name="parte_ids">
+                                <tree editable="bottom">
+                                    <field name="letra"/>
+                                    <field name="layout"/>
+                                    <field name="seleccionada"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
+                <footer>
+                    <button name="procesar_pdf" string="Procesar PDF" type="object" class="btn-primary"/>
+                    <button name="procesar_partes_seleccionadas" string="Procesar Partes Seleccionadas" type="object" class="btn-secondary"/>
+                </footer>
             </form>
         </field>
     </record>
@@ -42,7 +57,7 @@
 
 
     <!-- Acción para las vistas -->
-    <record id="action_mi_modelo" model="ir.actions.act_window">
+    <record id="action_procesamiento_pdf" model="ir.actions.act_window">
         <field name="name">Mi Modelo</field>
         <field name="res_model">mimodelo3</field>
         <field name="view_mode">form</field>
