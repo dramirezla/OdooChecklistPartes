@@ -4,8 +4,9 @@ import io
 import re
 from collections import Counter
 
+
 class ProcesamientoPDF(models.Model):
-    _name = 'mimodelo3'
+    _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
 
     name = fields.Char(string='Nombre del PDF', required=True)
@@ -67,11 +68,15 @@ class ProcesamientoPDF(models.Model):
         }
 
 
-#class ProcesamientoPDFParte(models.Model):
- #   _name = 'procesamientopdf1'
-  #  _description = 'Partes encontradas en el PDF'
-#
- #   pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado', ondelete='cascade')
-  #  letra = fields.Char(string='Letra Encontrada')
-   # layout = fields.Integer(string='Número de Página')
-   # seleccionada = fields.Boolean(string='Seleccionada')
+class ProcesamientoPDFParte(models.Model):
+    _name = 'procesamiento.pdf.parte'
+    _description = 'Partes encontradas en el PDF'
+
+    pdf_id = fields.Many2one(
+        'procesamiento.pdf',
+        string='PDF Asociado',
+        ondelete='cascade'
+    )
+    letra = fields.Char(string='Letra Encontrada')
+    layout = fields.Integer(string='Número de Página')
+    seleccionada = fields.Boolean(string='Seleccionada')
