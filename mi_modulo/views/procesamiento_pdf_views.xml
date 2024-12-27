@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-            <!-- Menú principal -->
+    <!-- Menú principal -->
     <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF"/>
 
     <!-- Submenú para la acción -->
@@ -43,13 +43,7 @@
                     </group>
                     <notebook>
                         <page string="Partes Encontradas">
-                            <field name="parte_ids">
-                                <tree editable="bottom">
-                                    <field name="letra"/>
-                                    <field name="layout"/>
-                                    <field name="seleccionada"/>
-                                </tree>
-                            </field>
+                            <field name="parte_ids"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -60,9 +54,6 @@
             </form>
         </field>
     </record>
-
-
-         
 
     <record id="action_procesamiento_pdf" model="ir.actions.act_window">
         <field name="name">Procesamiento de PDF</field>
