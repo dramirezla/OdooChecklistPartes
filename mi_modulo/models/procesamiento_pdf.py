@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 from PyPDF2 import PdfReader
 import io
 import re
