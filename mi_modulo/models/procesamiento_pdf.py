@@ -6,8 +6,6 @@ import io
 import re
 from collections import Counter
 
-
-
 class ProcesamientoPDF(models.Model):
     _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
@@ -15,9 +13,9 @@ class ProcesamientoPDF(models.Model):
     name = fields.Char(string='Nombre', required=True)
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
-    parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
+    parte_ids = fields.Text(string='Partes Encontradas', readonly=True)
     procesado = fields.Boolean(string='Procesado', default=False)
-    
+
     @api.model
     def create(self, vals):
         """
@@ -39,7 +37,7 @@ class ProcesamientoPDF(models.Model):
 
     def procesar_pdf(self):
         """
-        Procesa el archivo PDF, extrae texto y genera registros de partes encontradas.
+        Procesa el archivo PDF, extrae texto y genera un string con las partes encontradas.
         """
         self.ensure_one()
         if not self.archivo_pdf:
@@ -54,7 +52,6 @@ class ProcesamientoPDF(models.Model):
         partes = []
         contenido_paginas = []
 
-
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
@@ -63,26 +60,12 @@ class ProcesamientoPDF(models.Model):
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
 
-  
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
-        
-        
-        self.parte_ids.unlink()
-        for letra, layout in partes:
-            self.env['procesamiento.pdf.parte'].create({
-                'pdf_id': self.id,
-                'letra': letra,
-                'layout': layout - 1
-            })
+
+        # Guardar las partes encontradas como un texto en el campo `parte_ids`
+        partes_texto = "\n".join([f"Letra: {letra}, Página: {layout}" for letra, layout in partes])
+        self.parte_ids = partes_texto  # Almacenar las partes encontradas en un solo campo de texto
 
         self.procesado = True
 
-class ProcesamientoPDFParte(models.Model):
-    _name = 'procesamiento.pdf.parte'
-    _description = 'Partes encontradas en el PDF'
-
-    pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado')
-    letra = fields.Char(string='Letra Encontrada')
-    layout = fields.Integer(string='Número de Página')
-    seleccionada = fields.Boolean(string='Seleccionada')
 
