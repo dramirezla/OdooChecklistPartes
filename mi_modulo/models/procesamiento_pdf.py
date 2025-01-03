@@ -52,12 +52,29 @@ class ProcesamientoPDF(models.Model):
         partes = []
         contenido_paginas = []
 
+
+        #####Variables a interpretar####
+            # Inicializar frecuencias y partes por página
+        partes_frecuencia = Counter()  # Diccionario para contar la frecuencia de cada letra
+        partes_por_pagina = []  # Lista para almacenar las partes encontradas por cada página
+        letras_seleccionadas = []  # Lista para almacenar las letras seleccionadas
+
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             contenido_paginas.append(texto)   
             partes_pagina = re.findall(r'Kerf: [A-Z]', texto)
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
+
+        #Ahi que cambiar adaptar el codigo depiendo de las variables y su definicion en el codigo previo
+
+        for texto_pagina in contenido_paginas:
+            partes_pagina_dividida = texto_pagina.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
+            contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
+            partes_mayusculas = re.findall(r'[A-Z]', contenido_modificado)
+            raise UserError(partes_mayusculas)
+            partes_frecuencia.update(partes_mayusculas)
+            partes_por_pagina.append(partes_mayusculas)
 
         
         raise UserError(contenido_paginas)
