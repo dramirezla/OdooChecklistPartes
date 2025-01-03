@@ -64,17 +64,10 @@ class ProcesamientoPDF(models.Model):
         contenido_paginas = []
 
 
-        #####Variables a interpretar####
-            # Inicializar frecuencias y partes por página
-        partes_frecuencia = Counter()  # Diccionario para contar la frecuencia de cada letra
-        partes_por_pagina = []  # Lista para almacenar las partes encontradas por cada página
-        letras_seleccionadas = []  # Lista para almacenar las letras seleccionadas
-
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else "" 
-            ###
             partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
