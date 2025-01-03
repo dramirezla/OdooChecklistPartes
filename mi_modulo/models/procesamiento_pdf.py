@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from PyPDF2 import PdfReader
+import base64
 import io
 import re
 from collections import Counter
@@ -13,8 +14,26 @@ class ProcesamientoPDF(models.Model):
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
-    procesado = fields.Boolean(string='Procesado')
+    procesado = fields.Boolean(string='Procesado', default=False)
     
+    @api.model
+    def create(self, vals):
+        """
+        Sobrescribe el método create para procesar automáticamente el PDF al crear un registro.
+        """
+        record = super(ProcesamientoPDF, self).create(vals)
+        if vals.get('archivo_pdf'):
+            record.procesar_pdf()
+        return record
+
+    def write(self, vals):
+        """
+        Sobrescribe el método write para procesar automáticamente el PDF si se actualiza el archivo.
+        """
+        res = super(ProcesamientoPDF, self).write(vals)
+        if 'archivo_pdf' in vals:
+            self.procesar_pdf()
+        return res
 
     def procesar_pdf(self):
         """
@@ -22,13 +41,15 @@ class ProcesamientoPDF(models.Model):
         """
         self.ensure_one()
         if not self.archivo_pdf:
-            raise ValueError("Debe adjuntar un archivo PDF para procesar.")
+            raise UserError("Debe adjuntar un archivo PDF para procesar.")
+        
+        if self.procesado:
+            raise UserError("El PDF ya ha sido procesado.")
 
-        pdf_bytes = io.BytesIO(self.archivo_pdf.decode('base64'))
+        pdf_bytes = io.BytesIO(base64.b64decode(self.archivo_pdf))
         reader = PdfReader(pdf_bytes)
         frecuencia = Counter()
         partes = []
-        raise UserError("hola mundo")
 
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
@@ -36,10 +57,8 @@ class ProcesamientoPDF(models.Model):
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
 
-        # Guardar frecuencia en formato de texto
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
-
-        # Crear registros de partes encontradas
+        
         self.parte_ids.unlink()
         for letra, layout in partes:
             self.env['procesamiento.pdf.parte'].create({
@@ -50,25 +69,6 @@ class ProcesamientoPDF(models.Model):
 
         self.procesado = True
 
-    def procesar_partes_seleccionadas(self):
-        """
-        Procesa las partes seleccionadas y muestra un mensaje con la frecuencia.
-        """
-        seleccionadas = self.parte_ids.filtered(lambda p: p.seleccionada)
-        frecuencia = Counter(p.letra for p in seleccionadas)
-        mensaje = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
-
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Frecuencia de Partes Seleccionadas',
-                'message': mensaje,
-                'type': 'info',
-                'sticky': False,
-            }
-        }
-
 
 class ProcesamientoPDFParte(models.Model):
     _name = 'procesamiento.pdf.parte'
@@ -78,3 +78,4 @@ class ProcesamientoPDFParte(models.Model):
     letra = fields.Char(string='Letra Encontrada')
     layout = fields.Integer(string='Número de Página')
     seleccionada = fields.Boolean(string='Seleccionada')
+
