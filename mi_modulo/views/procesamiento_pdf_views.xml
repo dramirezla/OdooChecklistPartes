@@ -45,7 +45,7 @@
                         <page string="Partes Encontradas">
                             <field name="parte_ids">
                                 <tree>
-                                    <field name="letra" string="Letra Encontrada"/>
+                                    <field name="parte_ids.letra" string="Letra Encontrada"/>
                                     <field name="layout" string="Número de Página"/>
                                     <field name="seleccionada" string="Seleccionada" widget="boolean"/>
                                 </tree>
