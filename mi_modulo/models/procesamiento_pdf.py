@@ -72,7 +72,7 @@ class ProcesamientoPDF(models.Model):
             partes_pagina_dividida = texto_pagina.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
             partes_mayusculas = re.findall(r'[A-Z]', contenido_modificado)
-            raise UserError(partes_mayusculas)
+            raise UserError(contenido_modificado)
             partes_frecuencia.update(partes_mayusculas)
             partes_por_pagina.append(partes_mayusculas)
 
