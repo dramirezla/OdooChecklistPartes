@@ -67,7 +67,7 @@ class ProcesamientoPDF(models.Model):
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
         
         
-        self.parte_ids.unlink()
+        #self.parte_ids.unlink()
         for letra, layout in partes:
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
