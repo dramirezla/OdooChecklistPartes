@@ -77,7 +77,7 @@ class ProcesamientoPDF(models.Model):
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
                 'letra': letra,
-                'layout': layout
+                'layout': layout - 1
             })
 
         self.procesado = True
