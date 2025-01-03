@@ -43,9 +43,9 @@
                     </group>
                     <notebook>
                         <page string="Partes Encontradas">
-                            <field name="letra">
+                            <field name="parte_ids">
                                 <tree>
-                                    <field name="x" string="Letra Encontrada"/>
+                                    <field name="letra" string="Letra Encontrada"/>
                                     <field name="layout" string="Número de Página"/>
                                     <field name="seleccionada" string="Seleccionada" widget="boolean"/>
                                 </tree>
