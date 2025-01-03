@@ -75,7 +75,7 @@ class ProcesamientoPDF(models.Model):
             partes_frecuencia.update(partes_mayusculas)
             partes_por_pagina.append(partes_mayusculas)
 
-        raise UserError(partes_mayusculas) #partes_frecuencia,partes_por_pagina
+        raise UserError(partes_frecuencia) #partes_frecuencia,partes_por_pagina
 
         
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
