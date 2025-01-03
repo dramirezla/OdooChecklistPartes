@@ -50,14 +50,17 @@ class ProcesamientoPDF(models.Model):
         reader = PdfReader(pdf_bytes)
         frecuencia = Counter()
         partes = []
+        contenido_paginas = []
 
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
+            contenido_paginas.append(texto)   
             partes_pagina = re.findall(r'Kerf: [A-Z]', texto)
-            raise UserError("Hola mundo")
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
 
+        
+        raise UserError(contenido_paginas)
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
         
         
