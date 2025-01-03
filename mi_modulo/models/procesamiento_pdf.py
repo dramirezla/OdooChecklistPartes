@@ -54,7 +54,7 @@ class ProcesamientoPDF(models.Model):
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             partes_pagina = re.findall(r'Kerf: [A-Z]', texto)
-            raise UserError(partes_pagina)
+            raise UserError("Hola mundo")
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
 
