@@ -6,6 +6,17 @@ import io
 import re
 from collections import Counter
 
+
+class ProcesamientoPDFParte(models.Model):
+    _name = 'procesamiento.pdf.parte'
+    _description = 'Partes encontradas en el PDF'
+
+    pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado')
+    letra = fields.Char(string='Letra Encontrada')
+    layout = fields.Integer(string='Número de Página')
+    seleccionada = fields.Boolean(string='Seleccionada')
+
+
 class ProcesamientoPDF(models.Model):
     _name = 'procesamiento.pdf'
     _description = 'Procesamiento de PDF'
@@ -14,7 +25,6 @@ class ProcesamientoPDF(models.Model):
     archivo_pdf = fields.Binary(string='Archivo PDF', required=True, attachment=True)
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
-    letra_1 = fields.One2many('procesamiento.pdf.parte', 'letra', string='letra1')
     procesado = fields.Boolean(string='Procesado', default=False)
     
     @api.model
@@ -83,13 +93,4 @@ class ProcesamientoPDF(models.Model):
 
         self.procesado = True
 
-
-class ProcesamientoPDFParte(models.Model):
-    _name = 'procesamiento.pdf.parte'
-    _description = 'Partes encontradas en el PDF'
-
-    pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado')
-    letra = fields.Many2one(string='Letra Encontrada')
-    layout = fields.Integer(string='Número de Página')
-    seleccionada = fields.Boolean(string='Seleccionada')
 
