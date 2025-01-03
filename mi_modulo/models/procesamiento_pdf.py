@@ -68,7 +68,7 @@ class ProcesamientoPDF(models.Model):
             partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
             frecuencia.update([letra[-1] for letra in partes_pagina])
 
-        raise UserError(frecuencia) #partes_frecuencia,partes_por_pagina
+        raise UserError(partes) #partes_frecuencia,partes_por_pagina
 
         #Ahi que cambiar adaptar el codigo depiendo de las variables y su definicion en el codigo previo
 
