@@ -16,10 +16,10 @@ class ProcesamientoPDF(models.Model):
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
     procesado = fields.Boolean(string='Procesado', default=False)
 
-    letrax = parte_ids.letra
-    layoutx = parte_ids.layout
-    seleccionadax = parte_ids.seleccionada
-    
+
+    for rec in parte_ids:
+	    raise UserError(rec.letra)
+        
     @api.model
     def create(self, vals):
         """
