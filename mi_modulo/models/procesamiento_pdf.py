@@ -81,6 +81,7 @@ class ProcesamientoPDF(models.Model):
 	    raise UserError(rec.letra)
 
 
+
 class ProcesamientoPDFParte(models.Model):
     _name = 'procesamiento.pdf.parte'
     _description = 'Partes encontradas en el PDF'
