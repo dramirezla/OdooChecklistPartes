@@ -17,7 +17,7 @@ class ProcesamientoPDF(models.Model):
     procesado = fields.Boolean(string='Procesado', default=False)
 
 
-    for rec in parte_ids:
+    for rec in self.parte_ids:
 	    raise UserError(rec.letra)
         
     @api.model
