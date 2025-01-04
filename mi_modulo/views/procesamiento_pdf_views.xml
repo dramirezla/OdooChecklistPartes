@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- Acción asociada -->
+    <record id="action_procesamiento_pdf" model="ir.actions.act_window">
+        <field name="name">Procesamiento de PDF</field>
+        <field name="res_model">procesamiento.pdf</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+    
     <!-- Menú principal -->
     <menuitem id="menu_procesamiento_pdf_root" name="Procesamiento de PDF"/>
 
@@ -63,11 +71,6 @@
         </field>
     </record>
 
-    <!-- Acción asociada -->
-    <record id="action_procesamiento_pdf" model="ir.actions.act_window">
-        <field name="name">Procesamiento de PDF</field>
-        <field name="res_model">procesamiento.pdf</field>
-        <field name="view_mode">kanban,form</field>
-    </record>
+    
 </odoo>
 
