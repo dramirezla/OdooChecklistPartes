@@ -44,7 +44,7 @@
                     <notebook>
                         <page string="Partes Encontradas">
                             <field name="parte_ids"/>
-                            <field name="parte_ids.letra">
+                            <field name="parte_ids.letra"/>
                         </page>
                     </notebook>
                 </sheet>
