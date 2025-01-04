@@ -78,7 +78,7 @@ class ProcesamientoPDF(models.Model):
         self.procesado = True
 	    
 	for rec in self.parte_ids:
-		raise UserError(rec.letra)
+	    raise UserError(rec.letra)
 
 
 class ProcesamientoPDFParte(models.Model):
