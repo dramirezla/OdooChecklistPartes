@@ -1,4 +1,10 @@
-
+from odoo import models, fields, api
+from odoo.exceptions import UserError
+from PyPDF2 import PdfReader
+import base64
+import io
+import re
+from collections import Counter
 
 class ProcesamientoPDFParte(models.Model):
     _name = 'procesamiento.pdf.parte'
