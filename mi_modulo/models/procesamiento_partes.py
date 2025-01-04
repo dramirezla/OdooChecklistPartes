@@ -1,3 +1,5 @@
+
+
 class ProcesamientoPDFParte(models.Model):
     _name = 'procesamiento.pdf.parte'
     _description = 'Partes encontradas en el PDF'
