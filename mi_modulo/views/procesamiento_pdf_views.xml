@@ -43,8 +43,13 @@
                     </group>
                     <notebook>
                         <page string="Partes Encontradas">
-                            <!-- Muestra las partes encontradas como texto -->
-                            <field name="parte_ids" widget="text" readonly="1"/>
+                            <field name="parte_ids">
+                                <tree>
+                                    <field name="letra" string="Letra Encontrada"/>
+                                    <field name="layout" string="Número de Página"/>
+                                    <field name="seleccionada" string="Seleccionada" widget="boolean"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
