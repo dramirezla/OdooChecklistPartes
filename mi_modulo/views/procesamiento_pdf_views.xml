@@ -55,8 +55,8 @@
                         <page string="Partes Encontradas">
                             <field name="parte_ids">
                                 <list>
-                                    <!--field name="letra"/-->
-                                    <!--field name="layout"/-->
+                                    <field name="letra"/>
+                                    <!--field name="layout"/>
                                     <!--field name="seleccionada"/-->
                                 </list>
                             </field>
