@@ -18,7 +18,7 @@ class ProcesamientoPDF(models.Model):
 
 
     for rec in parte_ids:
-	    raise UserError(rec.letra)
+	raise UserError(rec.letra)
         
     @api.model
     def create(self, vals):
