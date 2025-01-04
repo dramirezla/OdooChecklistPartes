@@ -15,6 +15,10 @@ class ProcesamientoPDF(models.Model):
     frecuencia_partes = fields.Text(string='Frecuencia de Partes', readonly=True)
     parte_ids = fields.One2many('procesamiento.pdf.parte', 'pdf_id', string='Partes Encontradas')
     procesado = fields.Boolean(string='Procesado', default=False)
+
+    letrax = parte_ids.letra
+    layoutx = parte_ids.layout
+    seleccionadax = parte_ids.seleccionada
     
     @api.model
     def create(self, vals):
