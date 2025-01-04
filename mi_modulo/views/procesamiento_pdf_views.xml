@@ -54,11 +54,11 @@
                     <notebook>
                         <page string="Partes Encontradas">
                             <field name="parte_ids">
-                                <tree>
+                                <list>
                                     <!--field name="letra"/-->
                                     <!--field name="layout"/-->
                                     <!--field name="seleccionada"/-->
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
