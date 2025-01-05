@@ -73,9 +73,31 @@ class ProcesamientoPDF(models.Model):
 
         self.procesado = True
 
-        # Debug: Mostrar las partes procesadas (puedes quitar esto después de depurar)
-        #for rec in self.parte_ids:
-        #    raise UserError(rec.letra)
+    
+        # Método para procesar partes seleccionadas
+    def obtener_partes_seleccionadas(self):
+        self.ensure_one()
+        partes_seleccionadas = self.parte_ids.filtered(lambda p: p.seleccionada)
+        if not partes_seleccionadas:
+            raise UserError("No hay partes seleccionadas.")
+
+        frecuencia = Counter([parte.letra for parte in partes_seleccionadas])
+        resultado = [{"parte": letra, "frecuencia": freq} for letra, freq in frecuencia.items()]
+        return resultado
+
+    # Método para mostrar resultado en la interfaz de usuario
+    def mostrar_partes_seleccionadas(self):
+        self.ensure_one()
+        resultado = self.obtener_partes_seleccionadas()
+        mensaje = "\n".join([f"Parte: {item['parte']}, Frecuencia: {item['frecuencia']}" for item in resultado])
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Partes Seleccionadas',
+            'view_mode': 'form',
+            'res_model': 'procesamiento.pdf',
+            'target': 'new',
+            'context': {'default_name': f"Resultado - {self.name}", 'default_frecuencia_partes': mensaje},
+        }
 
 
 class ProcesamientoPDFParte(models.Model):
