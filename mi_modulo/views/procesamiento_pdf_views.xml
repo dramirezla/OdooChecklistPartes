@@ -62,11 +62,13 @@
                             </field>
                         </page>
                     </notebook>
+                    <footer>
+                        <button name="mostrar_partes_seleccionadas" type="object" string="Mostrar Partes Seleccionadas" class="btn-primary"/>
+                    </footer>
                 </sheet>
             </form>
         </field>
     </record>
-
     
 </odoo>
 
