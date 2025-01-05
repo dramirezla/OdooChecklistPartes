@@ -13,7 +13,7 @@
 
     <!-- Submenú para la acción -->
     <menuitem id="menu_procesamiento_pdf_action"
-              name="Lista de Procesamiento"
+              name="Directorio de procesos"
               parent="menu_procesamiento_pdf_root"
               action="action_procesamiento_pdf"/>
 
