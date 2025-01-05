@@ -48,7 +48,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="archivo_pdf" widget="sign" filename="name" string="Visualizar PDF"/>
+                        <field name="archivo_pdf" widget="pdf_viewer" filename="name" string="Visualizar PDF"/>
                         <field name="frecuencia_partes" widget="text"/>
                         <button name="mostrar_partes_seleccionadas" type="object" string="Mostrar Partes Seleccionadas" class="btn-primary"/>
                     </group>
