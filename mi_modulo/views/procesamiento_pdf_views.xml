@@ -50,6 +50,9 @@
                         <field name="name"/>
                         <field name="archivo_pdf"/>
                         <field name="frecuencia_partes" widget="text"/>
+                        <footer>
+                            <button name="mostrar_partes_seleccionadas" type="object" string="Mostrar Partes Seleccionadas" class="btn-primary"/>
+                        </footer>
                     </group>
                     <notebook>
                         <page string="Partes Encontradas">
@@ -62,9 +65,6 @@
                             </field>
                         </page>
                     </notebook>
-                    <footer>
-                        <button name="mostrar_partes_seleccionadas" type="object" string="Mostrar Partes Seleccionadas" class="btn-primary"/>
-                    </footer>
                 </sheet>
             </form>
         </field>
