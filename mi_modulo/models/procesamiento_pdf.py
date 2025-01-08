@@ -43,25 +43,37 @@ class ProcesamientoPDF(models.Model):
         self.ensure_one()
         if not self.archivo_pdf:
             raise UserError("Debe adjuntar un archivo PDF para procesar.")
-
+    
         if self.procesado:
             raise UserError("El PDF ya ha sido procesado.")
-
+    
         pdf_bytes = io.BytesIO(base64.b64decode(self.archivo_pdf))
         reader = PdfReader(pdf_bytes)
         frecuencia = Counter()
         partes = []
-
+    
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-            partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
-            partes += [(letra[-1], page_num + 1) for letra in partes_pagina]
-            frecuencia.update([letra[-1] for letra in partes_pagina])
-
+    
+            # 1. Buscar letras mayúsculas seguidas de ":"
+            letras_con_dos_puntos = re.findall(r'[A-Z]:', contenido_modificado)
+            
+            if letras_con_dos_puntos:
+                # Si hay letras seguidas de ":", solo tomar esas (sin el ":")
+                partes_pagina = [letra.rstrip(':') for letra in letras_con_dos_puntos]
+            else:
+                # Si no hay letras seguidas de ":", tomar todas las letras mayúsculas
+                partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
+    
+            # Asociar las partes a la página correspondiente
+            partes += [(letra, page_num + 1) for letra in partes_pagina]
+            frecuencia.update(partes_pagina)
+    
+        # Guardar frecuencia en el registro
         self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
-
+    
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
         for letra, layout in partes:
@@ -70,8 +82,9 @@ class ProcesamientoPDF(models.Model):
                 'letra': letra,
                 'layout': layout - 1
             })
-
+    
         self.procesado = True
+
 
     
         # Método para procesar partes seleccionadas
