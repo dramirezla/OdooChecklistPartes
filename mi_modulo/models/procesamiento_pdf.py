@@ -71,8 +71,9 @@ class ProcesamientoPDF(models.Model):
             partes += [(letra, page_num + 1) for letra in partes_pagina]
             frecuencia.update(partes_pagina)
     
-        # Guardar frecuencia en el registro
-        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia.items()])
+        # Ordenar alfabéticamente las claves de frecuencia antes de construir la tabla
+        partes_ordenadas = sorted(frecuencia.items(), key=lambda x: (len(x[0]), x[0]))
+        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in partes_ordenadas])
     
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
@@ -84,6 +85,7 @@ class ProcesamientoPDF(models.Model):
             })
     
         self.procesado = True
+
 
 
     
