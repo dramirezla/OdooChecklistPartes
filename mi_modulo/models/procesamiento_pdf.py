@@ -57,14 +57,14 @@ class ProcesamientoPDF(models.Model):
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
     
-            # 1. Buscar letras mayúsculas seguidas de ":"
-            letras_con_dos_puntos = re.findall(r'[A-Z]:', contenido_modificado)
+            # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
+            letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
             
             if letras_con_dos_puntos:
-                # Si hay letras seguidas de ":", solo tomar esas (sin el ":")
+                # Si hay combinaciones seguidas de ":", tomar esas (sin el ":")
                 partes_pagina = [letra.rstrip(':') for letra in letras_con_dos_puntos]
             else:
-                # Si no hay letras seguidas de ":", tomar todas las letras mayúsculas
+                # Si no hay combinaciones seguidas de ":", tomar todas las letras mayúsculas individuales
                 partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
     
             # Asociar las partes a la página correspondiente
