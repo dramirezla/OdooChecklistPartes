@@ -56,17 +56,16 @@ class ProcesamientoPDF(models.Model):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-
-            # Validar si se encontró una dimensión
+            
             if page_num == 1:
-                raise UserError(texto)
+                # Se define la altura y base del espacio de cada layout
                 match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
                 altura_layout = int(match_dim.group(1))  # Primera captura (altura)
                 base_layout = int(match_dim.group(2))   # Segunda captura (base)
-    
-                # Mostrar las dimensiones extraídas
-                raise UserError(f"Altura: {altura_layout}, Base: {base_layout}")
-        
+
+            elif page_num == 0:
+                raise UserError(texto)
+            
             # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
             letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
             
