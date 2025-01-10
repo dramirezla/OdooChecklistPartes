@@ -56,29 +56,42 @@ class ProcesamientoPDF(models.Model):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-
-            # Validar si se encontró una dimensión
+    
+            # Validar si se encontró una dimensión del layout
             if page_num == 1:
                 match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
-                altura_layout = int(match_dim.group(1))  # Primera captura (altura)
-                base_layout = int(match_dim.group(2))   # Segunda captura (base)
+                if match_dim:
+                    altura_layout = int(match_dim.group(1))  # Primera captura (altura)
+                    base_layout = int(match_dim.group(2))   # Segunda captura (base)
+                else:
+                    altura_layout, base_layout = 0, 0  # Valores predeterminados si no se encuentran dimensiones
     
-                # Mostrar las dimensiones extraídas
-                raise UserError(f"Altura: {altura_layout}, Base: {base_layout}")
-        
-            # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
-            letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
+            # Buscar dimensiones de las partes, ejemplo: "H: 12,0cm x 72,9cm"
+            partes_dimensiones = re.findall(r'([A-Z]):\s*(\d{1,3},\d)cm\s*x\s*(\d{1,3},\d)cm', contenido_modificado)
+    
+            # Ejemplo: Calculando posiciones relativas (puedes adaptar esta lógica según el contenido del PDF)
+            for letra, altura, base in partes_dimensiones:
+                altura_num = float(altura.replace(',', '.'))  # Convertir a número
+                base_num = float(base.replace(',', '.'))      # Convertir a número
+                
+                # Relativizar dimensiones con respecto al layout
+                altura_relativa = round((altura_num / altura_layout) * 100, 2) if altura_layout else 0
+                base_relativa = round((base_num / base_layout) * 100, 2) if base_layout else 0
             
-            if letras_con_dos_puntos:
-                # Si hay combinaciones seguidas de ":", tomar esas (sin el ":")
-                partes_pagina = [letra.rstrip(':') for letra in letras_con_dos_puntos]
-            else:
-                # Si no hay combinaciones seguidas de ":", tomar todas las letras mayúsculas individuales
-                partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
+                # Posiciones relativas arbitrarias (puedes extraerlas del contenido si es posible)
+                pos_x_relativa = round((base_num / base_layout) * 50, 2)  # Ejemplo
+                pos_y_relativa = round((altura_num / altura_layout) * 50, 2)  # Ejemplo
+            
+                partes.append({
+                    'letra': letra,
+                    'layout': page_num + 1,
+                    'altura': altura_relativa,
+                    'base': base_relativa,
+                    'pos_x': pos_x_relativa,
+                    'pos_y': pos_y_relativa,
+                })
     
-            # Asociar las partes a la página correspondiente
-            partes += [(letra, page_num + 1) for letra in partes_pagina]
-            frecuencia.update(partes_pagina)
+            frecuencia.update([parte['letra'] for parte in partes])
     
         # Ordenar alfabéticamente las claves de frecuencia antes de construir la tabla
         partes_ordenadas = sorted(frecuencia.items(), key=lambda x: (len(x[0]), x[0]))
@@ -86,15 +99,16 @@ class ProcesamientoPDF(models.Model):
     
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
-        for letra, layout in partes:
+        for parte in partes:
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
-                'letra': letra,
-                'layout': layout - 1
+                'letra': parte['letra'],
+                'layout': parte['layout'],
+                'altura': parte['altura'],
+                'base': parte['base']
             })
     
         self.procesado = True
-
 
 
     
@@ -131,4 +145,9 @@ class ProcesamientoPDFParte(models.Model):
     pdf_id = fields.Many2one('procesamiento.pdf', string='PDF Asociado')
     letra = fields.Char(string='Parte')
     layout = fields.Integer(string='Layout')
+    altura = fields.Float(string='Altura (%)', digits=(6, 2))
+    base = fields.Float(string='Base (%)', digits=(6, 2))
+    pos_x = fields.Float(string='Posición X (%)', digits=(6, 2))  # Coordenada X relativa
+    pos_y = fields.Float(string='Posición Y (%)', digits=(6, 2))  # Coordenada Y relativa
     seleccionada = fields.Boolean(string='CheckBox')
+
