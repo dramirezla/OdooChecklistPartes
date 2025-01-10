@@ -37,9 +37,6 @@ class ProcesamientoPDF(models.Model):
         return res
 
     def procesar_pdf(self):
-        """
-        Procesa el archivo PDF, extrae texto y genera registros de partes encontradas.
-        """
         self.ensure_one()
         if not self.archivo_pdf:
             raise UserError("Debe adjuntar un archivo PDF para procesar.")
@@ -54,48 +51,31 @@ class ProcesamientoPDF(models.Model):
     
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
-            partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
-            contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-            
-            if page_num == 1:
-                # Se define la altura y base del espacio de cada layout
-                match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
-                altura_layout = int(match_dim.group(1))  # Primera captura (altura)
-                base_layout = int(match_dim.group(2))   # Segunda captura (base)
-
-            elif page_num == 0:
-                raise UserError(texto)
-            
-            # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
-            letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
-            
-            if letras_con_dos_puntos:
-                # Si hay combinaciones seguidas de ":", tomar esas (sin el ":")
-                partes_pagina = [letra.rstrip(':') for letra in letras_con_dos_puntos]
-            else:
-                # Si no hay combinaciones seguidas de ":", tomar todas las letras mayúsculas individuales
-                partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
     
-            # Asociar las partes a la página correspondiente
-            partes += [(letra, page_num + 1) for letra in partes_pagina]
-            frecuencia.update(partes_pagina)
+            if page_num == 0:  # Procesar solo la página 0 para este caso
+                partes_pagina = re.findall(
+                    r'([A-Z]{1,2})\s+(\d+)\s+([\d,]+)cm\s+([\d,]+)cm',
+                    texto
+                )
+                for letra, copias, base, altura in partes_pagina:
+                    base = float(base.replace(',', '.'))  # Convertir base a float
+                    altura = float(altura.replace(',', '.'))  # Convertir altura a float
+                    partes.append((letra, page_num + 1, base, altura))
+                    frecuencia[letra] += int(copias)
     
-        # Ordenar alfabéticamente las claves de frecuencia antes de construir la tabla
-        partes_ordenadas = sorted(frecuencia.items(), key=lambda x: (len(x[0]), x[0]))
-        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in partes_ordenadas])
-    
-        # Eliminar partes anteriores y crear nuevas
+        # Actualizar las partes en la base de datos
+        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in sorted(frecuencia.items())])
         self.parte_ids.unlink()
-        for letra, layout in partes:
+        for letra, layout, base, altura in partes:
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
                 'letra': letra,
-                'layout': layout - 1
+                'layout': layout,
+                'base_parte': base,
+                'altura_parte': altura,
             })
     
         self.procesado = True
-
-
 
     
         # Método para procesar partes seleccionadas
