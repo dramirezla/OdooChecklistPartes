@@ -58,6 +58,8 @@
                                 <list>
                                     <field name="letra"/>
                                     <field name="layout"/>
+                                    <field name="base_parte"/>
+                                    <field name="altura_parte"/>
                                     <field name="seleccionada"/>
                                 </list>
                             </field>
