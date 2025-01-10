@@ -56,10 +56,10 @@ class ProcesamientoPDF(models.Model):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-            match_dim = re.search(r'\[A1\]\s*(\d{1,4})x(\d{1,4})', texto)
 
             # Validar si se encontró una dimensión
-            if match_dim:
+            if page_num == 1:
+                match_dim = re.search(r'\[A1\]\s*(\d{1,4})x(\d{1,4})', texto)
                 altura_layout = int(match_dim.group(1))  # Primera captura (altura)
                 base_layout = int(match_dim.group(2))   # Segunda captura (base)
     
