@@ -60,8 +60,8 @@ class ProcesamientoPDF(models.Model):
 
             # Validar si se encontró una dimensión
             if match_dim:
-                altura_layout = int(match.group(1))  # Primera captura (altura)
-                base_layout = int(match.group(2))   # Segunda captura (base)
+                altura_layout = int(match_dim.group(1))  # Primera captura (altura)
+                base_layout = int(match_dim.group(2))   # Segunda captura (base)
     
                 # Mostrar las dimensiones extraídas
                 raise UserError(f"Altura: {altura_layout}, Base: {base_layout}")
