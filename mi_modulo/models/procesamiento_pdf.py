@@ -51,6 +51,7 @@ class ProcesamientoPDF(models.Model):
         reader = PdfReader(pdf_bytes)
         frecuencia = Counter()
         partes = []
+        raise UserError(reader)
     
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
