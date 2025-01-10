@@ -58,6 +58,8 @@
                                 <list>
                                     <field name="letra"/>
                                     <field name="layout"/>
+                                    <field name="altura"/>
+                                    <field name="base"/>
                                     <field name="seleccionada"/>
                                 </list>
                             </field>
@@ -67,6 +69,7 @@
             </form>
         </field>
     </record>
+
     
 </odoo>
 
