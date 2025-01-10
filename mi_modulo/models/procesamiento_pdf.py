@@ -112,3 +112,5 @@ class ProcesamientoPDFParte(models.Model):
     letra = fields.Char(string='Parte')
     layout = fields.Integer(string='Layout')
     seleccionada = fields.Boolean(string='CheckBox')
+    base_parte = fields.Float(string='Base (cm)')
+    altura_parte = fields.Float(string='Altura (cm)')
