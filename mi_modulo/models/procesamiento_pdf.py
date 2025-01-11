@@ -68,7 +68,6 @@ class ProcesamientoPDF(models.Model):
                     r'([A-Z]{1,2})\s+(\d+)\s+([\d,]+)cm\s+([\d,]+)cm\s+([A-Za-z]+)\s+([\w-]+)',
                     texto
                 )
-                raise UserError(partes_pagina)
             
             # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
             letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
