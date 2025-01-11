@@ -46,41 +46,49 @@ class ProcesamientoPDF(models.Model):
     
         pdf_bytes = io.BytesIO(base64.b64decode(self.archivo_pdf))
         reader = PdfReader(pdf_bytes)
-        frecuencia = Counter()
         partes = []
     
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
     
             if page_num == 0:  # Procesar solo la página 0 para este caso
+                # Extraer las partes con sus datos
                 partes_pagina = re.findall(
-                    r'([A-Z]{1,2})\s+(\d+)\s+([\d,]+)cm\s+([\d,]+)cm',
+                    r'([A-Z]{1,2})\s+(\d+)\s+([\d,]+)cm\s+([\d,]+)cm\s+([A-Za-z]+)\s+([\w-]+)',
                     texto
                 )
-                for letra, copias, base, altura in partes_pagina:
-                    base = float(base.replace(',', '.'))  # Convertir base a float
-                    altura = float(altura.replace(',', '.'))  # Convertir altura a float
-                    partes.append((letra, page_num + 1, base, altura))
-                    frecuencia[letra] += int(copias)
+                for letra, copias, base, altura, rotacion, banding in partes_pagina:
+                    partes.append({
+                        'letra': letra,
+                        'copias': int(copias),
+                        'base': float(base.replace(',', '.')),
+                        'altura': float(altura.replace(',', '.')),
+                        'rotacion': rotacion,
+                        'banding': banding
+                    })
     
-        # Ordenar lexicográficamente por la letra de cada parte
-        frecuencia_ordenada = sorted(frecuencia.items(), key=lambda x: x[0])
+        # Ordenar partes lexicográficamente por la letra
+        partes_ordenadas = sorted(partes, key=lambda x: x['letra'])
     
-        # Actualizar el campo frecuencia_partes con el formato correcto
-        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia_ordenada])
+        # Actualizar el campo `frecuencia_partes` con el formato especificado
+        self.frecuencia_partes = "\n".join([
+            f"{p['letra']} {p['copias']} {p['base']}cm {p['altura']}cm {p['rotacion']} {p['banding']}"
+            for p in partes_ordenadas
+        ])
     
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
-        for letra, layout, base, altura in partes:
+        for parte in partes_ordenadas:
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
-                'letra': letra,
-                'layout': layout,
-                'base_parte': base,
-                'altura_parte': altura,
+                'letra': parte['letra'],
+                'layout': 1,  # Si hay un valor específico para layout, ajusta aquí
+                'base_parte': parte['base'],
+                'altura_parte': parte['altura'],
             })
     
         self.procesado = True
+
 
 
     
