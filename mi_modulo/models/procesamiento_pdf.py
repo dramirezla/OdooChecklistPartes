@@ -62,12 +62,6 @@ class ProcesamientoPDF(models.Model):
                 match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
                 altura_layout = int(match_dim.group(1))  # Primera captura (altura)
                 base_layout = int(match_dim.group(2))   # Segunda captura (base)
-
-            elif page_num == 0:
-                partes_pagina = re.findall(
-                    r'([A-Z]{1,2})\s+(\d+)\s+([\d,]+)cm\s+([\d,]+)cm\s+([A-Za-z]+)\s+([\w-]+)',
-                    texto
-                )
             
             # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
             letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
