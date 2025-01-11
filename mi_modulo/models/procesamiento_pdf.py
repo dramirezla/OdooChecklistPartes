@@ -58,6 +58,7 @@ class ProcesamientoPDF(models.Model):
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
             
             if page_num == 1:
+                raise UserError(texto)
                 # Se define la altura y base del espacio de cada layout
                 match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
                 altura_layout = int(match_dim.group(1))  # Primera captura (altura)
