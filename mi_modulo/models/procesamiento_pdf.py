@@ -5,6 +5,7 @@ import base64
 import io
 import re
 from collections import Counter
+from collections import defaultdict
 
 
 class ProcesamientoPDF(models.Model):
