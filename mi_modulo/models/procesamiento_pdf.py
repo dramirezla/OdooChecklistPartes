@@ -38,7 +38,7 @@ class ProcesamientoPDF(models.Model):
 
     def procesar_pdf(self):
         """
-        Procesa el archivo PDF, extrae texto y genera registros de partes encontradas.
+        Procesa el archivo PDF, extrae texto, genera registros de partes encontradas y calcula dimensiones asociadas.
         """
         self.ensure_one()
         if not self.archivo_pdf:
@@ -56,39 +56,32 @@ class ProcesamientoPDF(models.Model):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
-            
-            if page_num == 1:
-                raise UserError(texto)
-                # Se define la altura y base del espacio de cada layout
-                match_dim = re.search(r'\[A1\]\s*(\d{1,4})[xX](\d{1,4})', texto)
-                altura_layout = int(match_dim.group(1))  # Primera captura (altura)
-                base_layout = int(match_dim.group(2))   # Segunda captura (base)
-            
-            # 1. Buscar combinaciones de letras mayúsculas seguidas de ":"
-            letras_con_dos_puntos = re.findall(r'[A-Z]{1,2}:', contenido_modificado)
-            
-            if letras_con_dos_puntos:
-                # Si hay combinaciones seguidas de ":", tomar esas (sin el ":")
-                partes_pagina = [letra.rstrip(':') for letra in letras_con_dos_puntos]
-            else:
-                # Si no hay combinaciones seguidas de ":", tomar todas las letras mayúsculas individuales
-                partes_pagina = re.findall(r'[A-Z]', contenido_modificado)
     
-            # Asociar las partes a la página correspondiente
-            partes += [(letra, page_num + 1) for letra in partes_pagina]
-            frecuencia.update(partes_pagina)
+            # Buscar las partes identificadas (letras mayúsculas seguidas de ":") y sus dimensiones
+            matches = re.findall(r'([A-Z]):.*?(\d{1,3},\dcm)\s*x\s*(\d{1,3},\dcm)', contenido_modificado)
     
-        # Ordenar alfabéticamente las claves de frecuencia antes de construir la tabla
+            # Procesar las partes encontradas
+            for match in matches:
+                letra, altura, base = match
+                partes.append((letra, page_num + 1, altura, base))
+                frecuencia[letra] += 1
+    
+        # Generar la tabla de frecuencias con las dimensiones
         partes_ordenadas = sorted(frecuencia.items(), key=lambda x: (len(x[0]), x[0]))
-        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in partes_ordenadas])
+        self.frecuencia_partes = "\n".join([
+            f"{letra}: {freq} veces, Tamaño: {', '.join([f'{p[2]} x {p[3]}' for p in partes if p[0] == letra])}"
+            for letra, freq in partes_ordenadas
+        ])
     
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
-        for letra, layout in partes:
+        for letra, layout, altura, base in partes:
             self.env['procesamiento.pdf.parte'].create({
                 'pdf_id': self.id,
                 'letra': letra,
-                'layout': layout - 1
+                'layout': layout - 1,
+                'altura_parte': float(altura.replace(',', '.').replace('cm', '')),
+                'base_parte': float(base.replace(',', '.').replace('cm', '')),
             })
     
         self.procesado = True
