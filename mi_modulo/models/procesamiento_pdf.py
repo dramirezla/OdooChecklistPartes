@@ -50,41 +50,44 @@ class ProcesamientoPDF(models.Model):
         pdf_bytes = io.BytesIO(base64.b64decode(self.archivo_pdf))
         reader = PdfReader(pdf_bytes)
         frecuencia = Counter()
-        partes = []
+        dimensiones_por_parte = defaultdict(set)
     
         for page_num, page in enumerate(reader.pages):
             texto = page.extract_text() or ""
             partes_pagina_dividida = texto.split("Kerf: ", 1)  # Dividir en dos partes; antes y después de "Kerf"
             contenido_modificado = partes_pagina_dividida[1] if len(partes_pagina_dividida) > 1 else ""
     
-            # Buscar las partes identificadas (letras mayúsculas seguidas de ":") y sus dimensiones
+            # Buscar las partes identificadas (letras mayúsculas seguidas de dimensiones)
             matches = re.findall(r'([A-Z]):.*?(\d{1,3},\dcm)\s*x\s*(\d{1,3},\dcm)', contenido_modificado)
     
             # Procesar las partes encontradas
             for match in matches:
                 letra, altura, base = match
-                partes.append((letra, page_num + 1, altura, base))
+                dimensiones_por_parte[letra].add(f"{altura} x {base}")
                 frecuencia[letra] += 1
     
-        # Generar la tabla de frecuencias con las dimensiones
+        # Generar la tabla de frecuencias con dimensiones únicas
         partes_ordenadas = sorted(frecuencia.items(), key=lambda x: (len(x[0]), x[0]))
         self.frecuencia_partes = "\n".join([
-            f"{letra}: {freq} veces, Tamaño: {', '.join([f'{p[2]} x {p[3]}' for p in partes if p[0] == letra])}"
+            f"{letra}: {freq} veces, Tamaños: {', '.join(sorted(dimensiones_por_parte[letra]))}"
             for letra, freq in partes_ordenadas
         ])
     
         # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
-        for letra, layout, altura, base in partes:
-            self.env['procesamiento.pdf.parte'].create({
-                'pdf_id': self.id,
-                'letra': letra,
-                'layout': layout - 1,
-                'altura_parte': float(altura.replace(',', '.').replace('cm', '')),
-                'base_parte': float(base.replace(',', '.').replace('cm', '')),
-            })
+        for letra, tamanos in dimensiones_por_parte.items():
+            for tamano in tamanos:
+                altura, base = map(lambda x: float(x.replace(',', '.').replace('cm', '')), tamano.split(' x '))
+                self.env['procesamiento.pdf.parte'].create({
+                    'pdf_id': self.id,
+                    'letra': letra,
+                    'layout': 0,  # Ajustar si es necesario
+                    'altura_parte': altura,
+                    'base_parte': base,
+                })
     
         self.procesado = True
+
 
     
         # Método para procesar partes seleccionadas
