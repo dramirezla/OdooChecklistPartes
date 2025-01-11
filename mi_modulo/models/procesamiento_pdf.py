@@ -63,8 +63,13 @@ class ProcesamientoPDF(models.Model):
                     partes.append((letra, page_num + 1, base, altura))
                     frecuencia[letra] += int(copias)
     
-        # Actualizar las partes en la base de datos
-        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in sorted(frecuencia.items())])
+        # Ordenar lexicográficamente por la letra de cada parte
+        frecuencia_ordenada = sorted(frecuencia.items(), key=lambda x: x[0])
+    
+        # Actualizar el campo frecuencia_partes con el formato correcto
+        self.frecuencia_partes = "\n".join([f"{letra}: {freq}" for letra, freq in frecuencia_ordenada])
+    
+        # Eliminar partes anteriores y crear nuevas
         self.parte_ids.unlink()
         for letra, layout, base, altura in partes:
             self.env['procesamiento.pdf.parte'].create({
@@ -76,6 +81,7 @@ class ProcesamientoPDF(models.Model):
             })
     
         self.procesado = True
+
 
     
         # Método para procesar partes seleccionadas
