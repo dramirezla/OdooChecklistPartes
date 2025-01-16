@@ -54,19 +54,13 @@
                     </group>
                     <notebook>
                         <page string="Partes Encontradas">
-                            <field name="parte_ids">
-                                <kanban>
-                                    <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="o_kanban_card">
-                                                <div style="text-align: center; font-size: 24px; color: #4CAF50;">
-                                                    <span t-esc="record.letra.value"/>
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </templates>
-                                </kanban>
-                            </field>
+                            <div class="o_group">
+                                <t t-foreach="record.parte_ids" t-as="parte">
+                                    <div style="display: inline-block; width: 50px; height: 50px; border: 1px solid #000; margin: 5px; text-align: center; line-height: 50px; font-size: 20px; font-weight: bold;">
+                                        <span t-esc="parte.letra.value" />
+                                    </div>
+                                </t>
+                            </div>
                         </page>
                     </notebook>
                 </sheet>
